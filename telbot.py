@@ -5,8 +5,8 @@ import telebot
 
 config_dict = get_default_config()
 config_dict['language'] = 'ru'
-owm = OWM('TOKEN', config_dict)
-bot = telebot.TeleBot("TOKEN")
+owm = OWM('621c489808648ff3a7ec124017144cb7', config_dict)
+bot = telebot.TeleBot("1439067887:AAGv4mrLIlmWNYkrYmvRXEZTbaD9m4QO0jo")
 
 
 @bot.message_handler(content_types=['text'])
