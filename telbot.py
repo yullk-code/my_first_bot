@@ -5,8 +5,8 @@ import telebot
 
 config_dict = get_default_config()
 config_dict['language'] = 'ru'
-owm = OWM('my_key', config_dict)
-bot = telebot.TeleBot("mytoken")
+owm = OWM('621c489808648ff3a7ec124017144cb7', config_dict)
+bot = telebot.TeleBot("1439067887:AAGv4mrLIlmWNYkrYmvRXEZTbaD9m4QO0jo")
 
 
 @bot.message_handler(content_types=['text'])
@@ -15,9 +15,12 @@ def send_echo(message):
         mgr = owm.weather_manager()
         weather = mgr.weather_at_place(message.text).weather
         temp = weather.temperature('celsius')["temp"]
+        hum = weather.humidity
+        wind = weather.wind()["speed"]
 
-        answer = "В населённому пункте " + message.text + ", сейчас " + weather.detailed_status + "\n"
-        answer += "Температура сейчас в районе " + str(temp) + "°C" + "\n\n"
+        answer = message.text + ", сейчас " + weather.detailed_status + "\n"
+        answer += "Температура в данный момент времени в районе " + str(temp) + "°C" + "\n" + "Скорость ветра: " + \
+                  str(wind) + "м/с" + "\n" + "Влажность: " + str(hum) + "%" + "\n" + "\n\n"
 
         if temp < -30:
             answer += "Лучше не появляться на улице при такой температуре"
@@ -41,8 +44,8 @@ def send_echo(message):
 
         bot.send_message(message.chat.id, answer)
     except NotFoundError:
-        bot.send_message(message.chat.id, 'Ошибка! Город не найден.')
+        bot.send_message(message.chat.id, 'К сожалению, я не знаю такого города')
 
-    bot.polling(none_stop=True)
+bot.polling(none_stop=True)
 
-    input()
+input()
